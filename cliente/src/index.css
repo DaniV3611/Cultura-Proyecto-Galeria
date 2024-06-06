@@ -1,0 +1,85 @@
+/* COLOR VARIABLES */
+:root {
+  --raisingBlack: #151424;
+
+  --steelPink: #d831d7;
+  --shockingPink: #f834bb;
+  --frenchRose: #ff428e;
+
+  --flourescentCyan: #2bf5e9;
+  --iceBlue: #a8ffef;
+
+  --chartreuse: #dff959;
+  --orangeWeb: #f7a409;
+  --tomato: #ff594c;
+}
+
+/* BASIC RESET */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-size: 1.6rem;
+  font-family: "Inter", sans-serif !important;
+}
+
+html {
+  /*
+    10 / 16 = 0.625
+    1 rem === 10px
+    1 em === 16px
+  */
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+
+  background-color: var(--raisingBlack);
+  color: var(--iceBlue);
+}
+
+body {
+  box-sizing: border-box;
+  /* rem is always measured relative to the document’s root font-size. */
+  /* e.g. padding: 3rem; /* 30px */
+}
+
+a {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 35em) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media only screen and (max-width: 33em) {
+  html {
+    font-size: 40%;
+  }
+}
+
+@media only screen and (max-width: 21em) {
+  html {
+    font-size: 30%;
+  }
+}
+
+::-webkit-scrollbar {
+  background-color: var(--iceBlue);
+  color: var(--raisingBlack);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--iceBlue);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--raisingBlack);
+}
+
+::selection {
+  background-color: var(--raisingBlack) !important;
+  color: var(--iceBlue) !important;
+}

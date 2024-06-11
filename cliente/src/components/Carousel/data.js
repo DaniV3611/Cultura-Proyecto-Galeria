@@ -45,7 +45,7 @@ const data = [
 		id: 8,
 		bgColor: '#7952B3',
 		title: 'Lorem Ipsum',
-		desc : 'https://drive.google.com/file/d/12ywDmopl74OY1rW8P6pUTCVdJ6AW1ijN/view?usp=drive_link'
+		desc : 'https://galeriacultura2024.blob.core.windows.net/galeria/Adultez.jpg'
 	}
 ];
 

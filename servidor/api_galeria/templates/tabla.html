@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Matriz</title>
+</head>
+<body>
+    <h1>Tabla de Matriz</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Fecha</th>
+                <th>Año</th>
+                <th>Ubicación</th>
+                <th>Descripción</th>
+                <th>Link</th>
+                <th>Afectos</th>
+                <th>Autor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for objeto in objetos %}
+            <tr>
+                <td>{{ objeto.titulo }}</td>
+                <td>{{ objeto.fecha }}</td>
+                <td>{{ objeto.ano }}</td>
+                <td>{{ objeto.ubicacion }}</td>
+                <td>{{ objeto.descripcion }}</td>
+                <td>{{ objeto.link }}</td>
+                <td>{{ objeto.afectos }}</td>
+                <td>{{ objeto.autor }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

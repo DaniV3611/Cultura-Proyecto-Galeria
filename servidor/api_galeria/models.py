@@ -9,4 +9,5 @@ class Matriz(models.Model):
     descripcion = models.TextField(null=False)
     link = models.CharField(max_length=200, null=True)
     afectos = models.CharField(max_length=200)
+    autor = models.CharField(max_length=200, null=True)
 

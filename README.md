@@ -8,10 +8,10 @@
 
 ### Inicio de cliente
 Instalar los paquetes y dependencias de node
-- ```npm install -force```
+- ```npm install```
 
 Ejecucion del entorno cliente
-- ```npm start```
+- ```npm run dev```
 
 ### Imágenes e Información
 - [Carpetas](https://drive.google.com/drive/folders/16RUcw_L1DXuodE3XN_6JZi0-9_mCRDo2)

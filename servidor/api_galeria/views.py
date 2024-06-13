@@ -3,6 +3,7 @@ from django.shortcuts import render
 import json
 from .models import *
 from unidecode import unidecode
+import random
 
 # Create your views here.
 
@@ -23,6 +24,7 @@ def all(request):
                 'afectos' : object.afectos
             }
             images.append(dict)
+        random.shuffle(images)
         return JsonResponse({
             'message': 'Success',
             'images': images
@@ -52,6 +54,7 @@ def filter(request):
                 'afectos' : object.afectos
                 }
                 resultados.append(dict)
+        random.shuffle(resultados)
     # Glosario de palabras clave
     return JsonResponse({
         'message': 'Imagenes Recopiladas',

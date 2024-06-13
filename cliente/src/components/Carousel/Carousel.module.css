@@ -8,6 +8,7 @@
 }
 
 .slide {
+	margin-top: 15px;
 	width: 36rem;
 	height: 36rem;
 	transition: transform 500ms ease 0s, opacity 500ms ease 0s, visibility 500ms ease 0s;

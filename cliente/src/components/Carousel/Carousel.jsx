@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useEffect } from "react";
 import { Box, Button } from "@mui/material";
 
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -7,9 +7,38 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import classes from "./Carousel.module.css";
 
-import data from "./data";
+function Carousel({data}) {
 
-function Carousel() {
+	const keyEvents = (() => {
+
+		window.removeEventListener('keydown', (event) => {
+			switch(event.key) {
+				case 'ArrowLeft':
+					prev();
+					break;
+				case 'ArrowRight':
+					next();
+					break;
+				default:
+					break;
+			}
+		});
+
+		window.addEventListener('keydown', (event) => {
+			switch(event.key) {
+				case 'ArrowLeft':
+					prev();
+					break;
+				case 'ArrowRight':
+					next();
+					break;
+				default:
+					break;
+			}
+		});
+			
+	  });
+
 	const [activeSlide, setActiveSlide] = useState(2);
 
 	const next = () => (activeSlide < data.length - 1 ? setActiveSlide(activeSlide + 1) : setActiveSlide(0));
@@ -26,36 +55,39 @@ function Carousel() {
 			};
 		else if (activeSlide - 1 === index)
 			return {
-				opacity: 1,
-				transform: "translateX(-24rem) translateZ(-40rem) rotateY(35deg)",
+				opacity: 0.1,
+				transform: "translateX(-50rem) translateZ(-80rem) rotateY(35deg)",
 				zIndex: 9,
 			};
 		else if (activeSlide + 1 === index)
 			return {
-				opacity: 1,
-				transform: "translateX(24rem) translateZ(-40rem) rotateY(-35deg)",
+				opacity: 0.1,
+				transform: "translateX(50rem) translateZ(-80rem) rotateY(-35deg)",
 				zIndex: 9,
 			};
 		else if (activeSlide - 2 === index)
 			return {
-				opacity: 1,
-				transform: "translateX(-48rem) translateZ(-50rem) rotateY(35deg)",
+				opacity: 0,
+				transform: "translateX(-50rem) translateZ(-50rem) rotateY(35deg)",
 				zIndex: 8,
 			};
 		else if (activeSlide + 2 === index)
 			return {
-				opacity: 1,
-				transform: "translateX(48rem) translateZ(-50rem) rotateY(-35deg)",
+				display: null,
+				opacity: 0,
+				transform: "translateX(60rem) translateZ(-50rem) rotateY(-35deg)",
 				zIndex: 8,
 			};
 		else if (index < activeSlide - 2)
 			return {
+				display: null,
 				opacity: 0,
 				transform: "translateX(-48rem) translateZ(-50rem) rotateY(35deg)",
 				zIndex: 7,
 			};
 		else if (index > activeSlide + 2)
 			return {
+				display: null,
 				opacity: 0,
 				transform: "translateX(48rem) translateZ(-50rem) rotateY(-35deg)",
 				zIndex: 7,
@@ -63,11 +95,13 @@ function Carousel() {
 	};
 
 	return (
+		
 		<Box sx={{ display: "flex", flexDirection: "column" }}>
+			{/*keyEvents()*/}
 			{/* carousel */}
 			<div className={classes.slideC}>
 				{data.map((item, index) => (
-					<React.Fragment key={item.id}>
+					<React.Fragment key={index}>
 						<div
 							className={classes.slide}
 							style={{
@@ -77,16 +111,10 @@ function Carousel() {
 							}}
 						>
 							<div className={classes.sliderContent}>
-								<img src={item.desc} alt="emotion" style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "1rem" }} />
+								<img src={item.link} alt={item.descripcion} style={{ maxWidth: "auto", maxHeight: "42rem", borderRadius: "1rem" }} />
 							</div>
 						</div>
-						<div
-							className={classes.reflection}
-							style={{
-								background: `linear-gradient(to bottom, ${item.bgColor}40, transparent)`,
-								...getStyles(index),
-							}}
-						/>
+						
 					</React.Fragment>
 				))}
 			</div>
@@ -101,6 +129,9 @@ function Carousel() {
 				</Button>
 			</div>
 		</Box>
+
+	    
+
 	);
 }
 

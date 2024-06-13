@@ -34,6 +34,8 @@ html {
   font-size: 62.5%;
   scroll-behavior: smooth;
 
+  overflow-x: hidden;
+
   background-color: var(--raisingBlack);
   color: var(--iceBlue);
 }

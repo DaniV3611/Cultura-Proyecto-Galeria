@@ -36,7 +36,7 @@ def all(request):
 
 # Filtra las imagenes a traves de palabras clave
 def filter(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         body = json.loads(request.body)
         keyword = body['keyword']
         objects = Matriz.objects.all()

@@ -6,6 +6,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import classes from "./Carousel.module.css";
+import ImageModal from '../../ImageModal';
 
 function Carousel({data}) {
 
@@ -40,6 +41,11 @@ function Carousel({data}) {
 	  });
 
 	const [activeSlide, setActiveSlide] = useState(2);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [linkActual, setLinkActual] = useState("");
+
+	const openModal = () => setIsModalOpen(true);
+  	const closeModal = () => setIsModalOpen(false);
 
 	const next = () => (activeSlide < data.length - 1 ? setActiveSlide(activeSlide + 1) : setActiveSlide(0));
 
@@ -111,7 +117,12 @@ function Carousel({data}) {
 							}}
 						>
 							<div className={classes.sliderContent}>
-								<img src={item.link} alt={item.descripcion} style={{ maxWidth: "auto", maxHeight: "42rem", borderRadius: "1rem" }} />
+								<img src={item.link} onClick={() => {
+									if (activeSlide == index) {
+										setLinkActual(item.link);
+										openModal();
+									}
+								}} alt={item.titulo} style={{ maxWidth: "auto", maxHeight: "42rem", borderRadius: "1rem" }} />
 							</div>
 						</div>
 						
@@ -128,6 +139,11 @@ function Carousel({data}) {
 					Siguiente
 				</Button>
 			</div>
+			<ImageModal
+				isOpen={isModalOpen}
+				onRequestClose={closeModal}
+				imgSrc={linkActual}
+			/>
 		</Box>
 
 	    

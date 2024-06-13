@@ -4,26 +4,71 @@ import { Box, Card, CardContent, Container, Stack, TextField, Typography } from 
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
 
+import axios from 'axios';
+
 import * as styles from "./ChatStyles";
+import ImageModal from '../../ImageModal';
+
+const base_url = 'http://127.0.0.1:8000/api'
 
 function Chat() {
 	const [loading, setLoading] = useState(false);
 	const [chat, setChat] = useState([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [linkActual, setLinkActual] = useState("");
+
+	const openModal = () => setIsModalOpen(true);
+  	const closeModal = () => setIsModalOpen(false);
 
 	const enivarPeticion = async (value) => {
-		console.log(value);
+
+		let images = [];
+		
+		try {
+			const response = await axios.post(base_url + '/filter', {'keyword' : value});
+			const data = response.data;
+			images = data.images;
+		} catch (error) {
+			console.log(error);
+		}
+
+		return images;
+		  
 	}
 
-	const chatFormHandler = (e) => {
+	const chatFormHandler = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 
 		const dataArr = [...new FormData(e.target)];
 		const dataObj = Object.fromEntries(dataArr);
 
-		setChat((prevChat) => [...prevChat, dataObj.input]);
+		setChat((prevChat) => [...prevChat, {
+			'send' : 'user', 
+			'text': dataObj.input,
+			'styles' : styles.userInput
+			}]);
 
-		enivarPeticion(document.getElementById("chat-input").value);
+		const images = await enivarPeticion(document.getElementById("chat-input").value);
+
+		console.log(images);
+
+		if (images.length > 0) {
+			setChat((prevChat) => [...prevChat, {
+				'send' : 'server', 
+				'link': images[0].link,
+				'text' : `Titulo: ${images[0].titulo}`,
+				'styles': styles.serverInput
+			}])
+			setChat((prevChat) => [...prevChat, {
+				'send' : 'server', 
+				'text' : `Descripcion: ${images[0].descripcion}`,
+				'styles': styles.serverInput
+			}])
+		}
+		else {
+			setChat((prevChat) => [...prevChat, {'send' : 'server', 'text': 'No fue posible cargar imagenes', 'styles': styles.serverInput }])
+		}	
 
 		document.getElementById("chat-input").value = "";
 		setLoading(false);
@@ -44,9 +89,15 @@ function Chat() {
 					<Stack height={"90vh"} justifyContent={"space-between"} p={1}>
 						<Box overflow={"auto"}>
 							{chat.map((item, index, arr) => (
-								<Typography key={index} sx={styles.userInput}>
-									{item}
-								</Typography>
+								<>
+								{item.text && <Typography key={index} sx={item.styles}>
+									{item.text}
+								</Typography>}
+								{item.link && <img key={`img${index}`} src={item.link} onClick= {() => {
+									setLinkActual(item.link);
+									openModal();
+								}}style={{ maxWidth: "auto", maxHeight: "38rem", borderRadius: "1rem", marginLeft: "10px" }}></img>}
+								</>
 							))}
 						</Box>
 						<Box onSubmit={chatFormHandler} component="form">
@@ -66,6 +117,7 @@ function Chat() {
 													borderColor: "flourescentCyan.main !important",
 												},
 											},
+											marginTop: '15px'
 										}}
 										fullWidth
 									/>
@@ -89,6 +141,7 @@ function Chat() {
 											backgroundColor: "rgba(127, 255, 0, 0.1)", // Un ligero fondo chartreuse al hacer hover
 											borderColor: "chartreuse.main", // Cambio del color del borde al hacer hover
 										},
+										marginTop: '15px'
 									}}
 								>
 									<span>Send</span>
@@ -98,6 +151,11 @@ function Chat() {
 					</Stack>
 				</CardContent>
 			</Card>
+			<ImageModal
+				isOpen={isModalOpen}
+				onRequestClose={closeModal}
+				imgSrc={linkActual}
+			/>
 		</Container>
 	);
 }

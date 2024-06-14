@@ -11,7 +11,7 @@ const AboutPage = () => {
         }}
         p={4}
       >
-        <h1>We´re working in this page</h1>
+        <h1>We´re working on this page</h1>
     </Box>
   )
 }

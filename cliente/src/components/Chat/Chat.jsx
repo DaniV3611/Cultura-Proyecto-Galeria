@@ -8,8 +8,8 @@ import axios from 'axios';
 import * as styles from "./ChatStyles";
 import ImageModal from '../../ImageModal';
 
-/*const base_url = 'https://danielv.pythonanywhere.com/api'*/
-const base_url = 'http://127.0.0.1:8000/api';
+const base_url = 'https://danielv.pythonanywhere.com/api'
+
 
 function Chat() {
 	const [loading, setLoading] = useState(false);

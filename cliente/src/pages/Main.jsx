@@ -5,8 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from 'axios';
 
-/*const base_url = 'https://danielv.pythonanywhere.com/api'*/
-const base_url = 'http://127.0.0.1:8000/api';
+const base_url = 'https://danielv.pythonanywhere.com/api'
 
 const Main = () => {
   const [imagenes, setImagenes] = useState([]);

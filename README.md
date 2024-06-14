@@ -32,7 +32,7 @@ Instalar los paquetes y dependencias
 
 ***
 
-Para probar con servidor de desarrollo local se debe cambiar `base_url` dentro de `cliente/src/App.jsx` y `cliente/src/components/Chat/Chat.jsx`
+Para probar con servidor de desarrollo local se debe cambiar `base_url` dentro de `cliente/src/pages/Main.jsx` y `cliente/src/components/Chat/Chat.jsx`
 
 ***
 

@@ -90,13 +90,13 @@ def obtenerAfecto(keyword):
         'Duelo/Pena': ['pesar profundo', 'perdida significativa', 'adaptacion emocional',
                        'pesadumbre', 'congoja', 'afliccion', 'perdida', 'privacion'],
         'Soledad/Aislamiento': ['carencia de compania', 'vinculos afectivos', 
-                                'falta de vinclulos afectivos', 'aislamiento',
+                                'falta de vinculos afectivos', 'aislamiento',
                                 'soledad'],
         'Desesperanza/Derrota': ['perdida de esperanza', 'des esperanza', 'desesperanza',
                                  'resignacion', 'imposibilidad', 'derrota'],
         'Sobrecogimiento/Estremecimiento' : ['emocion intensa', 'sacude el animo', 'animo', 
                                              'algo sobrenatural', 'sobrenatural', 
-                                             'sacudidad emocional viva', 'repentina'
+                                             'sacudida emocional viva', 'repentina'
                                              'estremecimientos fisicos', 'sobrecogimiento',
                                              'estremecimiento'],
         'Anhelo/Zozobra': ['deseo vivo e intenso', 'deseo', 'deseo intenso', 

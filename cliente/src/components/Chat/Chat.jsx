@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Box, Card, CardContent, Container, Stack, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 import axios from 'axios';
 
@@ -17,9 +18,24 @@ function Chat() {
 	const [chat, setChat] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [linkActual, setLinkActual] = useState("");
+	const [mostrarSugerencias, setMostrarSugerencias] = useState(false);
 
 	const openModal = () => setIsModalOpen(true);
   	const closeModal = () => setIsModalOpen(false);
+
+	const listaSugerencias = ['monichu', 'manco', 'monichu', 'monichu', 'monichu'];
+
+	const sugerencias = () => {
+		
+		if (mostrarSugerencias) {
+			console.log("Mostrar Sugerencias");
+			setMostrarSugerencias(false);
+		}
+		else {
+			console.log("No mostrar Sugerencias");
+			setMostrarSugerencias(true);
+		}
+	}
 
 	const enivarPeticion = async (value) => {
 
@@ -124,6 +140,49 @@ function Chat() {
 									/>
 								</Box>
 
+								{mostrarSugerencias && (
+									<ul style={{ 
+									
+									padding: 0,
+									position: 'absolute',
+									backgroundColor: '#dff959',
+									color: "#151424",
+									
+									borderRadius: '10px',
+									marginTop: '5px',
+									zIndex: 1,
+									boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Añadir una sombra
+									}}>
+									{listaSugerencias.map((item, index) => (
+										<li key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
+										{item}
+										</li>
+									))}
+									</ul>
+								)}
+
+								<LoadingButton
+									size="small"
+									startIcon={<ArrowDropUpIcon />}
+									onClick={sugerencias}
+									variant="outline"
+									sx={{
+									color: 'chartreuse.main',
+									border: '0.1rem solid',
+									borderRadius: '1rem',
+									"& > *": {
+										color: 'chartreuse.main',
+									},
+									"&:hover": {
+										backgroundColor: 'rgba(127, 255, 0, 0.1)', // Un ligero fondo chartreuse al hacer hover
+										borderColor: 'chartreuse.main', // Cambio del color del borde al hacer hover
+									},
+									marginTop: '15px'
+									}}
+								>
+									<span>Sugerencias</span>
+								</LoadingButton>
+
 								<LoadingButton
 									size="small"
 									type="submit"
@@ -145,7 +204,7 @@ function Chat() {
 										marginTop: '15px'
 									}}
 								>
-									<span>Send</span>
+									<span>Enviar</span>
 								</LoadingButton>
 							</Stack>
 						</Box>

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-
+import React, { useState, useRef, useEffect } from "react";
 import { Box, Card, CardContent, Container, Stack, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import axios from 'axios';
-
 import * as styles from "./ChatStyles";
 import ImageModal from '../../ImageModal';
 
@@ -20,10 +18,19 @@ function Chat() {
 	const [linkActual, setLinkActual] = useState("");
 	const [mostrarSugerencias, setMostrarSugerencias] = useState(false);
 
+	const chatContainerRef = useRef(null); // Referencia para acceder al contenedor de chat
+
+	// Efecto para hacer scroll automático hacia abajo cuando cambia el contenido del chat
+	useEffect(() => {
+		if (chatContainerRef.current) {
+		chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+		}
+	}, [chat]); // Se ejecuta cada vez que cambia 'chat'
+
 	const openModal = () => setIsModalOpen(true);
   	const closeModal = () => setIsModalOpen(false);
 
-	const listaSugerencias = ['monichu', 'manco', 'monichu', 'monichu', 'monichu'];
+	const listaSugerencias = ['tristeza profunda', 'malpresente', 'dificultad', 'dolor', 'afliccion', 'mal importante', 'melancolia', 'tristeza', 'pesar', 'bien perdido', 'deseo de recuperarlo', 'amor', 'lejano', 'anoraza', 'nostalgia', 'vacilacion', 'escepticismo', 'desconfianza', 'indecision', 'inseguridad', 'duda', 'incertidumbre', 'apatia', 'insensibilidad', 'frialdad', 'desinteres', 'desden', 'indiferencia', 'distanciamiento', 'intranquilidad', 'mal perturbador', 'agitacion', 'zozobra', 'mal inminente', 'anticipacion de dificultades', 'desasosiego', 'inquietud', 'congoja', 'mal grave', 'inevitable', 'tension', 'preocupacion', 'mal futuro', 'amenaza', 'angustia', 'ansiedad', 'mal dificil de evitar', 'deseo de huir', 'protegerse', 'huir', 'perturbacion', 'peligro real o imaginario', 'activacion defensiva', 'temor', 'miedo', 'embate impetuoso', 'contrarrestar', 'rechazar mal violento', 'ira intensa', 'deseo de agredir', 'amenaza inminente', 'ira', 'rabia', 'remordimiento', 'mal causado', 'falta grave', 'pesar', 'arrepentimiento', 'mal realizado', 'desasosiego moral', 'culpa', 'turbacion', 'pesar', 'accion deshonrosa', 'hiere amor propio', 'ultraje', 'rebajamiento de dignidad', 'dolor', 'rechazo', 'verguenza', 'humillacion', 'abandono', 'desamparo', 'falta de proteccion', 'mal sobrepasante', 'soledad', 'carencia de ayuda', 'adversidad', 'frustracion', 'imposibilidad', 'falta de medios o recursos', 'desvalimiento', 'vulnerabilidad', 'carencia de proteccion', 'impotencia', 'indefension', 'distanciamiento', 'ajeno', 'extrano a la realidad', 'desconexion', 'desapego', 'realidad paralela', 'extranamiento', 'disosociacion', 'repulsion', 'alejamiento', 'objeto danino', 'indeseable',  'aversion', 'negacion total', 'malestar profundo', 'rechazo', 'repudio', 'turbacion', 'desconcierto', 'situacion compleja', 'confusion', 'falta de coherencia', 'acontecimientos inesperados', 'perplejidad', 'coexistencia de emociones opuestas', 'ambivalencia emocional', 'impresion', 'desagradable', 'amargo', 'dolor intenso', 'decepcion', 'sinsabor', 'amargura', 'resentimiento', 'pesar profundo', 'perdida significativa', 'adaptacion emocional', 'pesadumbre', 'congoja', 'afliccion', 'perdida', 'privacion', 'carencia de compania', 'vinculos afectivos', 'falta de vinculos afectivos', 'aislamiento', 'soledad', 'perdida de esperanza', 'des esperanza', 'desesperanza',   'resignacion', 'imposibilidad', 'derrota', 'emocion intensa', 'sacude el animo', 'animo', 'algo sobrenatural', 'sobrenatural', 'sacudidad emocional viva', 'repentina', 'estremecimientos fisicos', 'sobrecogimiento', 'estremecimiento', 'deseo vivo e intenso', 'deseo', 'deseo intenso', 'bien apreciado', 'no poseido', 'inquietud', 'desasosiego', 'infortunios previstos', 'anhelo', 'zozobra', 'cansancio', 'desgana', 'falta de interes', 'repeticion constante', 'agotamiento', 'esfuerzo excesivo', 'preocupacion excesiva', 'esfuerzo o preocupacion excesivos', 'desfallecimiento', 'hastio', 'fatiga', 'nada', 'vacio']
 
 	const sugerencias = () => {
 		
@@ -35,6 +42,11 @@ function Chat() {
 			console.log("No mostrar Sugerencias");
 			setMostrarSugerencias(true);
 		}
+	}
+
+	const seleccionarSugerencia = (index) => {
+		document.getElementById("chat-input").value = listaSugerencias[index];
+		enviarForm(listaSugerencias[index]);
 	}
 
 	const enivarPeticion = async (value) => {
@@ -51,6 +63,40 @@ function Chat() {
 
 		return images;
 		  
+	}
+
+	const enviarForm = async (value) => {
+		setLoading(true);
+
+		setChat((prevChat) => [...prevChat, {
+			'send' : 'user', 
+			'text': value,
+			'styles' : styles.userInput
+			}]);
+
+		const images = await enivarPeticion(value);
+
+		console.log(images);
+
+		if (images.length > 0) {
+			setChat((prevChat) => [...prevChat, {
+				'send' : 'server', 
+				'link': images[0].link,
+				'text' : `Titulo: ${images[0].titulo}`,
+				'styles': styles.serverInput
+			}])
+			setChat((prevChat) => [...prevChat, {
+				'send' : 'server', 
+				'text' : `Descripcion: ${images[0].descripcion}`,
+				'styles': styles.serverInput
+			}])
+		}
+		else {
+			setChat((prevChat) => [...prevChat, {'send' : 'server', 'text': 'No fue posible cargar imagenes', 'styles': styles.serverInput }])
+		}	
+
+		document.getElementById("chat-input").value = "";
+		setLoading(false);
 	}
 
 	const chatFormHandler = async (e) => {
@@ -95,16 +141,17 @@ function Chat() {
 		<Container
 			maxWidth="md"
 			sx={{
+				marginTop: '15px',
 				border: "0.1rem solid",
 				borderColor: "chartreuse.main",
 				borderRadius: "1rem",
-				height: "95vh",
+				height: "85vh",
 			}}
 		>
-			<Card sx={{ bgcolor: "transparent", boxShadow: 0 }}>
+			<Card sx={{ bgcolor: "transparent", boxShadow: 0, height: '85vh' }}>
 				<CardContent>
-					<Stack height={"90vh"} justifyContent={"space-between"} p={1}>
-						<Box overflow={"auto"}>
+					<Stack height={"82vh"} justifyContent={"space-between"} p={1}>
+						<Box overflow={"auto"} ref={chatContainerRef}>
 							{chat.map((item, index, arr) => (
 								<>
 								{item.text && <Typography key={index} sx={item.styles}>
@@ -141,29 +188,48 @@ function Chat() {
 								</Box>
 
 								{mostrarSugerencias && (
-									<ul style={{ 
-									
+									<ul key="box_ul"style={{ 
 									padding: 0,
-									position: 'absolute',
-									backgroundColor: '#dff959',
-									color: "#151424",
-									
+									position: 'absolute' ,
+									maxHeight: '200px',
+									width: '150px',
+									top: '53vh',
+									left: '58%',
+									overflow: 'auto',
+									backgroundColor: '#151424',
+									color: "#28d7cf",
+									border: '2px solid #28d7cf',
 									borderRadius: '10px',
 									marginTop: '5px',
 									zIndex: 1,
 									boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' // Añadir una sombra
 									}}>
 									{listaSugerencias.map((item, index) => (
-										<li key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
+										<Box 
+										component="li"
+										key={index}
+										sx={{
+											padding: '10px',
+											transition: 'background-color 0.3s',
+											'&:hover': {
+											backgroundColor: 'rgba(127, 255, 0, 0.1)',
+											cursor: 'pointer'
+											},
+										}}
+										onClick={() => {
+											seleccionarSugerencia(index);
+										}}
+										>
 										{item}
-										</li>
+										
+										</Box>
 									))}
 									</ul>
 								)}
 
 								<LoadingButton
 									size="small"
-									startIcon={<ArrowDropUpIcon />}
+									startIcon={ mostrarSugerencias ? <ExpandMoreIcon/> : <ExpandLessIcon/> }
 									onClick={sugerencias}
 									variant="outline"
 									sx={{

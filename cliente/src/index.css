@@ -69,16 +69,19 @@ a {
 }
 
 ::-webkit-scrollbar {
-  background-color: var(--iceBlue);
-  color: var(--raisingBlack);
+  width: 8px;
+  background-color: var(--raisingBlack);
+  color: var(--iceBlue);
 }
 
 ::-webkit-scrollbar-corner {
-  background-color: var(--iceBlue);
+  background-color: var(--raisingBlack);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--raisingBlack);
+  background-color: var(--iceBlue);
+  color: var(--raisingBlack);
+  border-radius: 6px;
 }
 
 ::selection {

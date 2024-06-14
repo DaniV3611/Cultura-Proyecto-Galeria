@@ -14,8 +14,13 @@ import veleta from "./veleta.png";
 
 import * as styles from "./NavStyles";
 import classes from "./Nav.module.css";
+import { Link, Outlet } from "react-router-dom";
 
-const pages = ["Carousel", "Chat", "Nosotros"];
+const pages = [
+  {'name': 'Carousel', 'link': '/'},
+  {'name': 'Chat', 'link': '/chat'},
+  {'name': 'Nosotros', 'link': '/about'}
+]
 
 function Nav() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -51,13 +56,15 @@ function Nav() {
 
           <Box sx={styles.buttonContainerStyles}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+              <Link key={`link2${page.name}`} to={page.link}>
+                <Button
+                key={`${page.name}i`}
                 sx={styles.buttonStyles}
               >
-                {page}
+                {page.name}
               </Button>
+              </Link>
+              
             ))}
           </Box>
 
@@ -89,10 +96,12 @@ function Nav() {
               sx={styles.menuStyles}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={styles.menuItemTypographyStyles}>
-                    {page}
-                  </Typography>
+                <MenuItem key={`${page.name}2`}>
+                  <Link key={`link1${page.name}`} to={page.link}>
+                    <Typography sx={styles.menuItemTypographyStyles}>
+                      {page.name}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -113,6 +122,7 @@ function Nav() {
           </Typography>
         </Toolbar>
       </Container>
+      <Outlet/>
     </AppBar>
   );
 }
